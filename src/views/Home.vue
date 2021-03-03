@@ -46,7 +46,7 @@
                                     dark
                             >
                                 <v-card-text class="headline font-weight-bold text-center mb-0">
-                                    <v-row v-if="false">
+                                    <v-row>
                                         <v-col cols="12" class="clock-text mb-0 pb-0">
                                             <span :style="$vuetify.breakpoint.smAndDown?'font-size: 1.6em':''" class="clock">{{REMAINING_DAYS.toString().padStart(2,'0')}}</span>
                                             <span :style="$vuetify.breakpoint.smAndDown?'font-size: 1.6em':''" class="clock-separator">:</span>
@@ -64,7 +64,7 @@
                             </v-card>
                         </v-col>
                         <v-col cols="12" class="text-center">
-                            <v-btn @click="goSite()" large color="#F75028" class="font-blink font-weight-bold title white--text">¡Descúbrelo acá!</v-btn>
+                            <v-btn @click="goSite" large color="#F75028" class="font-blink font-weight-bold title white--text">¡Descúbrelo acá!</v-btn>
                         </v-col>
                     </v-row>
                     <v-row v-if="showForm">
@@ -259,6 +259,7 @@
 <script>
     import { RULES } from "../mixins/rules";
     import axios from "axios";
+    import moment from 'moment';
 export default {
   name: "Home",
   mixins: [RULES],
@@ -274,7 +275,7 @@ export default {
       hours: 24,
       minutes: 59,
       seconds: 59,
-      DATE_TARGET: new Date('12/11/2020 0:01 AM'),
+      DATE_TARGET: moment().add(7,'days'),
       MILLISECONDS_OF_A_SECOND: 1000,
       MILLISECONDS_OF_A_MINUTE: 0,
       MILLISECONDS_OF_A_HOUR: 0,
@@ -296,8 +297,8 @@ export default {
       this.MILLISECONDS_OF_A_HOUR = this.MILLISECONDS_OF_A_MINUTE * 60;
       this.MILLISECONDS_OF_A_DAY = this.MILLISECONDS_OF_A_HOUR * 24;
 
-      //this.updateCountdown();
-      //setInterval(this.updateCountdown, this.MILLISECONDS_OF_A_SECOND);
+      this.updateCountdown();
+      setInterval(this.updateCountdown, this.MILLISECONDS_OF_A_SECOND);
   },
   computed: {
       computedDateFormatted() {
@@ -311,7 +312,7 @@ export default {
   },
   methods: {
       goSite(){
-        location.href = "/sitio"
+        location.href = "https://legocollectors-site.netlify.app"
       },
       formatDate(date) {
           if (!date) return null;
